@@ -20,7 +20,7 @@ connection.connect(function(err) {
 exports.register = function(req,res){
   console.log("req",req.body);
   var today = new Date();
-  var users={
+  var users = {
     "first_name": req.headers.first_name,
     "last_name": req.headers.last_name,
     "email": req.headers.email,
@@ -69,7 +69,7 @@ exports.login = function(req, res) {
       } else {
         res.send({
           "code": 204,
-          "success": "Email doens't exist"
+          "success": "Email doesn't exist"
         });
       }
     }
