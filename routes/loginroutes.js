@@ -17,16 +17,18 @@ connection.connect(function(err) {
 });
 
 
+//TODO - implement validation e.g. does email already exist?
+
 exports.register = function(req,res){
-  console.log("req",req.body);
   var today = new Date();
   var users = {
-    "first_name": req.headers.first_name,
-    "last_name": req.headers.last_name,
-    "email": req.headers.email,
-    "password": req.headers.password,
+    "first_name": req.body.first_name,
+    "last_name": req.body.last_name,
+    "email": req.body.email,
+    "password": req.body.password,
     "created": today,
   }
+
   connection.query('INSERT INTO users SET ?',users, function (error, results, fields) {
   if (error) {
     console.log("error ocurred",error);
@@ -35,7 +37,6 @@ exports.register = function(req,res){
       "failed": "error ocurred"
     })
   } else {
-    console.log('The solution is: ', results);
     res.send({
       "code": 200,
       "success": "user registered sucessfully"
@@ -45,8 +46,8 @@ exports.register = function(req,res){
 }
 
 exports.login = function(req, res) {
-  var email = req.headers.email;
-  var password = req.headers.password;
+  var email = req.body.email;
+  var password = req.body.password;
   connection.query('SELECT * FROM users WHERE email = ?', [email], function(error, results, fields) {
     if (error) {
       res.send({
